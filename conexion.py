@@ -1,40 +1,40 @@
-from typing import Self
-import mysql.connector   
- 
+import mysql.connector
+
 class Registro_datos():
 
     def __init__(self):
-        self.conexion = mysql.connector.connect( host='localhost',
-                                            database ='basededatos', 
-                                            user = 'root',
-                                            password ='03579')
+        self.conexion = mysql.connector.connect(
+            host='localhost',
+            database='basededatos',
+            user='root',
+            password='03579'
+        )
 
-    def inserta_producto( legajo, Apellido_y_nombre, direccion, localidad, cp, fecha_ingreso, Antigüedad, Fecha_Nacimiento, Edad, DNI, nro, cat, oficina, Nombre_Oficina, Secretaria, sindicato, Sepelio, Mutual, solo_4, Coseguro, Seguro, PUESTO, SEXO, ANTIGÜEDAD, ESTUDIO):
-        cur = Self.conexion.cursor()
+    def inserta_legajo(self, legajo, Apellido_y_nombre, direccion, localidad, cp, fecha_ingreso, Antigüedad, Fecha_Nacimiento, Edad, DNI, nro, cat, oficina, Nombre_Oficina, Secretaria, sindicato, Sepelio, Mutual, solo_4, Coseguro, Seguro, PUESTO, SEXO, ANTIGÜEDAD, ESTUDIO, Nro_De_Afiliado, Fecha_De_Afiliacion):
+        cur = self.conexion.cursor()
 
-        sql='''INSERT INTO sindicato ( LEGAJO, APELLIDO_Y_NOMBRE, DIRECCION, LOCALIDAD, CP, FECHA_INGRESO, ANTIGUEDAD, FECHA_DE_NACIMIENTO, EDAD, DNI, NRO, CAT, OFICINA, NOMBRE_OFICINA, SECRETARIA, SINDICATO, SEPELIO, MUTUAL, SOLO_4, COSEGURO, SEGURO, PUESTO, SEXO, ANTIGÜEDAD, ESTUDIO) 
-        VALUES('{}', '{}','{}', '{}','{}''{}', '{}','{}', '{}','{}''{}', '{}','{}', '{}','{}''{}', '{}','{}', '{}','{}')'''.format(legajo, Apellido_y_nombre, direccion, localidad, cp, fecha_ingreso, Antigüedad, Fecha_Nacimiento, Edad, DNI, nro, cat, oficina, Nombre_Oficina, Secretaria, sindicato, Sepelio, Mutual, solo_4, Coseguro, Seguro, PUESTO, SEXO, ANTIGÜEDAD, ESTUDIO)
-        cur.execute(sql)
-        Self.conexion.commit()    
+        sql = '''INSERT INTO sindicato (LEGAJO, APELLIDO_Y_NOMBRE, DIRECCION, LOCALIDAD, CP, FECHA_INGRESO, ANTIGUEDAD, FECHA_DE_NACIMIENTO, EDAD, DNI, NRO, CAT, OFICINA, NOMBRE_OFICINA, SECRETARIA, SINDICATO, SEPELIO, MUTUAL, SOLO_4, COSEGURO, SEGURO, PUESTO, SEXO, ANTIGÜEDAD, ESTUDIO, Nro_De_Afiliado, Fecha_De_Afiliacion) 
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)'''
+        
+        values = (legajo, Apellido_y_nombre, direccion, localidad, cp, fecha_ingreso, Antigüedad, Fecha_Nacimiento, Edad, DNI, nro, cat, oficina, Nombre_Oficina, Secretaria, sindicato, Sepelio, Mutual, solo_4, Coseguro, Seguro, PUESTO, SEXO, ANTIGÜEDAD, ESTUDIO, Nro_De_Afiliado, Fecha_De_Afiliacion)
+        
+        cur.execute(sql, values)
+        self.conexion.commit()
         cur.close()
 
-
-
-    def mostrar_productos(self):
+    def mostrar_legajo(self):
         cursor = self.conexion.cursor()
-        sql = "SELECT * FROM sindicato    " 
+        sql = "SELECT * FROM sindicato"
         cursor.execute(sql)
         registro = cursor.fetchall()
         return registro
 
-    def busca_producto(self, nombre_producto):
+    def busca_legajo(self, nombre_legajo):
         cur = self.conexion.cursor()
-        sql = "SELECT * FROM sindicato WHERE APELLIDO_Y_NOMBRE = {}".format(nombre_producto)
-        cur.execute(sql)
+        sql = "SELECT * FROM sindicato WHERE LEGAJO = %s"
+        cur.execute(sql, (nombre_legajo,))
         nombreX = cur.fetchall()
-        cur.close()     
-        return nombreX 
-
-        
+        cur.close()
+        return nombreX
 
  
