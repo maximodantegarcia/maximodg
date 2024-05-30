@@ -6,5 +6,15 @@ def main():
     ventana.wm_title("Base de datos Sindicato")
     ventana.config(bg='black')
     ventana.geometry('1920x1080')
+    ventana.resizable(True)
+    ventana.minsize('800x600')
+    ventana()
     app = Registro(ventana)
     app.mainloop()
+
+    
+if __name__ == "__main__":
+    ventana = Tk()
+    app = Registro(ventana)
+    ventana.mainloop()
+    
