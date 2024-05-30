@@ -1,5 +1,5 @@
 from doctest import master
-from tkinter import Entry, Label, Frame, Misc, Tk, Button,ttk, Scrollbar, VERTICAL, HORIZONTAL,StringVar,END, Toplevel
+from tkinter import Entry, Label, Frame, Misc, Tk, Button, ttk, Scrollbar, VERTICAL, HORIZONTAL, StringVar, END, Toplevel
 from typing import Any
 from conexion import Registro_datos
 
@@ -13,8 +13,9 @@ class Registro(Frame):
         frame3 = Frame(master, bg="gray")
         frame3.place(x=526, y=0, width=1400, height=1020)
 
+        self.buscar = StringVar()  # Define la variable de búsqueda
         self.btnnuevo = Button(frame1, text="Buscar", command=self.buscar_nombre, bg="white", fg="black", font=10)
-        Entry(frame1,textvariable=self.buscar_nombre , font=('Arial',12), width=24).place(x=40, y=10)
+        Entry(frame1, textvariable=self.buscar, font=('Arial', 12), width=24).place(x=40, y=10)  # Asigna self.buscar aquí
         
         self.btnnuevo.place(x=45, y=40, width=210, height=25)
 
@@ -36,7 +37,7 @@ class Registro(Frame):
         self.oficina = StringVar()
         self.Nombre_Oficina = StringVar()
         self.Secretaria = StringVar()
-        self.sindicato =StringVar ()
+        self.sindicato = StringVar()
         self.Sepelio = StringVar()
         self.Mutual = StringVar()
         self.solo_4 = StringVar()
@@ -252,41 +253,16 @@ class Registro(Frame):
             
     def agregar_datos(self):
         self.tabla.focus()
-        legajo = self.legajo.get()
-        apellido_y_nombre = self.Apellido_y_nombre.get()
-        direccion = self.direccion.get()
-        localidad = self.localidad.get()
-        cp = self.cp.get()
-        fecha_ingreso = self.fecha_ingreso.get()
-        antiguedad = self.Antigüedad.get()
-        fecha_nacimiento = self.Fecha_Nacimiento.get()
-        edad = self.Edad.get()
-        dni = self.DNI.get()
-        nro = self.nro.get()
-        cat = self.cat.get()
-        oficina = self.oficina.get()
-        nombre_oficina = self.Nombre_Oficina.get()
-        secretaria = self.Secretaria.get()
-        sindicato = self.sindicato.get()
-        sepelio = self.Sepelio.get()
-        mutual = self.Mutual.get()
-        solo_4 = self.solo_4.get()
-        coseguro = self.Coseguro.get()
-        seguro = self.Seguro.get()
-        puesto = self.PUESTO.get()
-        sexo = self.SEXO.get()
-        antigüedad = self.ANTIGÜEDAD.get()
-        estudio = self.ESTUDIO.get()
-        nro_afiliado = self.Nro_De_Afiliado.get()
-        fecha_afiliacion = self.Fecha_De_Afiliacion.get()
-        
         datos = (
-            legajo, apellido_y_nombre, direccion, localidad, cp, fecha_ingreso, antiguedad, fecha_nacimiento, edad, 
-            dni, nro, cat, oficina, nombre_oficina, secretaria, sindicato, sepelio, mutual, solo_4, coseguro, seguro, 
-            puesto, sexo, antigüedad, estudio, nro_afiliado, fecha_afiliacion
+            self.legajo.get(), self.Apellido_y_nombre.get(), self.direccion.get(), self.localidad.get(), self.cp.get(), 
+            self.fecha_ingreso.get(), self.Antigüedad.get(), self.Fecha_Nacimiento.get(), self.Edad.get(), self.DNI.get(), 
+            self.nro.get(), self.cat.get(), self.oficina.get(), self.Nombre_Oficina.get(), self.Secretaria.get(), 
+            self.sindicato.get(), self.Sepelio.get(), self.Mutual.get(), self.solo_4.get(), self.Coseguro.get(), 
+            self.Seguro.get(), self.PUESTO.get(), self.SEXO.get(), self.ANTIGÜEDAD.get(), self.ESTUDIO.get(), 
+            self.Nro_De_Afiliado.get(), self.Fecha_De_Afiliacion.get()
         )
         
-        self.tabla.insert('', 0, text=legajo, values=(datos))
+        self.tabla.insert('', 0, text=datos[0], values=datos)
         self.basededatos.inserta_datos(datos)
         
         for var in [
@@ -299,8 +275,8 @@ class Registro(Frame):
             var.set("")
 
     def buscar_nombre(self):
-        valor = self.buscar.get()
-        self.tabla.delete(*self.tabla.get_children())
+        valor = self.buscar.get()  # Obtener el valor de búsqueda desde self.buscar
+        self.tabla.delete(*self.tabla.get_children())  # Limpiar la tabla
         for row in self.basededatos.buscar_datos(valor):
             self.tabla.insert('', 0, text=row[0], values=row)
 
@@ -350,6 +326,33 @@ class Registro(Frame):
         current_item = self.tabla.focus()
         if not current_item:
             return
-        data = self.tabla.item(current_item)
-        self.nombre_borar = data['values'][0]
         
+        data = self.tabla.item(current_item)
+        values = data['values']
+        self.legajo.set(values[0])
+        self.Apellido_y_nombre.set(values[1])
+        self.direccion.set(values[2])
+        self.localidad.set(values[3])
+        self.cp.set(values[4])
+        self.fecha_ingreso.set(values[5])
+        self.Antigüedad.set(values[6])
+        self.Fecha_Nacimiento.set(values[7])
+        self.Edad.set(values[8])
+        self.DNI.set(values[9])
+        self.nro.set(values[10])
+        self.cat.set(values[11])
+        self.oficina.set(values[12])
+        self.Nombre_Oficina.set(values[13])
+        self.Secretaria.set(values[14])
+        self.sindicato.set(values[15])
+        self.Sepelio.set(values[16])
+        self.Mutual.set(values[17])
+        self.solo_4.set(values[18])
+        self.Coseguro.set(values[19])
+        self.Seguro.set(values[20])
+        self.PUESTO.set(values[21])
+        self.SEXO.set(values[22])
+        self.ANTIGÜEDAD.set(values[23])
+        self.ESTUDIO.set(values[24])
+        self.Nro_De_Afiliado.set(values[25])
+        self.Fecha_De_Afiliacion.set(values[26])
